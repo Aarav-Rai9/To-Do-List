@@ -16,7 +16,28 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from List import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('login/', views.login, name="login"),
+    path('forgot-password/', views.forgot_password, name="forgot_password"),
+    path('register/', views.register, name="register"),
+    path('dashboard/', views.dashboard, name="dashboard"),
+    path('add-list-item/', views.add_list_item, name="add_list_item"),
+    path('edit-status/<int:list_id>/', views.edit_status, name="edit_status"),
+    path('delete-list-item/<int:list_id>/', views.delete_todo, name="delete_list_item"),
+    path('search-name/', views.search_name, name="search_name"),
+    path('logout/', views.logout, name="logout"),
+    path('create-post/', views.posts, name="posts"),
+    path('posts/', views.list_posts, name="list_posts"),
+    path('edit-post/<int:post_id>/', views.edit_post, name="edit_post"),
+    path('delete-post/<int:post_id>/', views.delete_post, name="delete_post"),
+    path('my-posts/', views.my_posts, name="my_posts"),
+    path('edit-list-item/<int:id>', views.edit_list_item, name="edit_list_item")
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

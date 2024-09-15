@@ -1,0 +1,40 @@
+{% extends 'header.html' %}
+{% block title %}To-Do List - Edit Status{% endblock %}
+{% block content %}
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-4 text-gray-800">Edit Status</h1>
+
+                    <form class="user" action="{% url 'edit_status' list.id %}" method="post">
+                        {% csrf_token %}
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input type="text" class="form-control form-control-user" name="description" value="{{ list.description }}" readonly>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control form-control-user" name="created_at" value="{{ list.created_at }}" readonly>
+                                    </div>
+                                </div>
+                                    <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <select class="form-select" name="status">
+                                            <option value="True">Complete</option>
+                                            <option value="False">Incomplete</option>
+                                        </select>
+
+                                            <input value="{{ list.id }}" name="id" hidden="hidden">
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-user btn-block">Submit</button>
+                                <hr>
+                            </form>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+{% endblock %}
