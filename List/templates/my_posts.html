@@ -1,0 +1,34 @@
+{% extends 'header.html' %}
+{% block title %}To-Do List - My Posts{% endblock %}
+{% block content %}
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-4 text-black-800">My Posts</h1>
+
+                    {% for post in posts %}
+                    <div class="card" style="width: 100%;">
+                        {% if post.image %}
+  <img src="{{ post.image.url }}" class="card-img-top" alt="..." style="max-width: 200px; max-height: 100px">
+                        {% endif %}
+  <div class="card-body">
+      <h1>{{ post.title }}</h1>
+    <p class="card-text">{{ post.content }}</p>
+      <button type="button" class="btn btn-link"><a href="{% url 'edit_post' post.id %}">Edit</a></button>
+      <button type="button" class="btn btn-link"><a href="{% url 'delete_post' post.id %}">Delete</a></button>
+      {% if post.published == 1 %}
+      <span class="text-success">(Published)</span>
+      {% else %}
+      <span class="text-danger">(Not Published)</span>
+      {% endif %}
+  </div>
+</div>
+                    {% endfor %}
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+{% endblock %}

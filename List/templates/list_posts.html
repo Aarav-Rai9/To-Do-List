@@ -1,0 +1,27 @@
+{% extends 'header.html' %}
+{% block title %}To-Do List - All Posts{% endblock %}
+{% block content %}
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-4 text-black-800">Posts</h1>
+
+                    {% for post in posts %}
+                    <div class="card" style="width: 100%;">
+                        {% if post.image %}
+  <img src="{{ post.image.url }}" class="card-img-top" alt="..." style="max-width: 200px; max-height: 100px">
+                        {% endif %}
+  <div class="card-body">
+      <h1>{{ post.title }}</h1>
+    <p class="card-text">{{ post.content }}</p>
+  </div>
+</div>
+                    {% endfor %}
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+{% endblock %}
