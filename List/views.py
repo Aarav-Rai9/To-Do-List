@@ -1,9 +1,14 @@
+from django.http import HttpResponse
+from logging import exception
 from django.core.serializers import serialize
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import *
 from .models import *
 import json
+from django.core.mail import send_mail, EmailMessage
+from django.conf import settings
+from django.template.loader import render_to_string
 
 
 # Create your views here.
@@ -164,12 +169,24 @@ def my_posts(request):
 
 
 def edit_list_item(request, id):
-    print("hello world")
     obj = get_object_or_404(ToDoList, id=id)
     # obj.title = request.POST.get("description")
     description = json.loads(request.body)
-    obj.title = description['description']
-    obj.save()
-    print(obj.title)
+    obj.description = description['description']
+    try:
+        obj.save()
+    except exception as e:
+        print(e)
+    print(obj)
     data = {"id": obj.id, "description": obj.description, "created_at": obj.created_at, "status": obj.status}
     return JsonResponse(data)
+
+
+def test_email(request):
+    subject = 'test subject'
+    body = 'test'
+    recipient_list = ['anuradhaah667@gmail.com', 'dummy95252749@gmail.com']
+    send_mail(subject, body, settings.DEFAULT_FROM_EMAIL, recipient_list)
+    return HttpResponse("email sent.")
+
+#def send_http_email(request):

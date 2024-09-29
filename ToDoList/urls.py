@@ -36,7 +36,8 @@ urlpatterns = [
     path('edit-post/<int:post_id>/', views.edit_post, name="edit_post"),
     path('delete-post/<int:post_id>/', views.delete_post, name="delete_post"),
     path('my-posts/', views.my_posts, name="my_posts"),
-    path('edit-list-item/<int:id>', views.edit_list_item, name="edit_list_item")
+    path('edit-list-item/<int:id>', views.edit_list_item, name="edit_list_item"),
+    path('test_email/', views.test_email, name='test_email')
 ]
 
 if settings.DEBUG:
