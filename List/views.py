@@ -9,9 +9,15 @@ import json
 from django.core.mail import send_mail, EmailMessage
 from django.conf import settings
 from django.template.loader import render_to_string
+from django.db.models import Q
 
 
 # Create your views here.
+
+
+def home(request):
+    return redirect("login")
+
 
 def login(request):
     if request.method == "POST":
@@ -67,11 +73,12 @@ def register(request):
 
 
 def dashboard(request):
+    global notification
     user = UserDetails.objects.get(id=request.session.get("user_id", None))
     list = ToDoList.objects.filter(user_details=user)
-    #for i in list:
-    #list = ToDoList.objects.all()
-    #print(request.session.get("user_id", None))
+    # for i in list:
+    # list = ToDoList.objects.all()
+    # print(request.session.get("user_id", None))
     if request.method == "POST":
         status = request.POST.get("status")
         date = request.POST.get("created_at")
@@ -128,6 +135,7 @@ def logout(request):
 
 
 def posts(request):
+    global notification
     if request.method == "POST":
         form = PostForm(request.POST, request.FILES)
         user_id = request.session.get("user_id", None)
@@ -189,4 +197,11 @@ def test_email(request):
     send_mail(subject, body, settings.DEFAULT_FROM_EMAIL, recipient_list)
     return HttpResponse("email sent.")
 
-#def send_http_email(request):
+
+def notification_count(request):
+    #user_id = request.session.get("user_id", None)
+    #print("user id ", user_id)
+    unseen = Posts.objects.filter(published__icontains=1, seen__icontains=0).count()
+    print("unseen ", unseen)
+    obj = {"count": unseen}
+    return JsonResponse(obj)
