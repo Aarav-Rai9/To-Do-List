@@ -1,2 +1,5 @@
 /homework.txt
-ToDoList\settings.py
+ToDoList/settings.py
+db.sqlite3
+*/migrations/
+*.log

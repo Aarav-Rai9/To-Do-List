@@ -29,7 +29,7 @@ for (let i = 0; i < element.length; i++) {
 
 
 function notification() {
-    let api = fetch("http://127.0.0.1:8000/notification/", {
+    fetch("http://127.0.0.1:8000/notification/", {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -38,10 +38,9 @@ function notification() {
         credentials: "same-origin"
     }).then(response => response.json()).then(data => {
         let count = data["count"]
-        console.log(response)
         let element = document.getElementById("notification")
         element.innerHTML = count
-        });
+    }).catch(error => console.log("Error:", error))
 
 }
 
