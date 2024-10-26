@@ -199,9 +199,17 @@ def test_email(request):
 
 
 def notification_count(request):
-    #user_id = request.session.get("user_id", None)
-    #print("user id ", user_id)
+    # user_id = request.session.get("user_id", None)
+    # print("user id ", user_id)
     unseen = Posts.objects.filter(published__icontains=1, seen__icontains=0).count()
     print("unseen ", unseen)
     obj = {"count": unseen}
     return JsonResponse(obj)
+
+
+def get_user_details(request):
+    print(request)
+    response = json.loads(request.body)
+    id = response["id"]
+    user_details = get_object_or_404(UserDetails, id=id)
+    return user_details

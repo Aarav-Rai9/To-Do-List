@@ -39,7 +39,8 @@ urlpatterns = [
     path('my-posts/', views.my_posts, name="my_posts"),
     path('edit-list-item/<int:id>', views.edit_list_item, name="edit_list_item"),
     path('test_email/', views.test_email, name='test_email'),
-    path('notification/', views.notification_count, name='notification')
+    path('notification/', views.notification_count, name='notification'),
+    path('user_details/', views.get_user_details, name='user_details')
 ]
 
 if settings.DEBUG:

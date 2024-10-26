@@ -6,11 +6,12 @@ function getCsrfToken() {
     return token
 }
 
+console.log(getCsrfToken())
+
 element = document.getElementsByClassName("list_title")
 for (let i = 0; i < element.length; i++) {
     element[i].addEventListener("change", function (self) {
         id = self.target.id
-        int
         id_num = id.slice(7)
         tag = document.getElementById(id)
         content = tag.value
@@ -27,7 +28,7 @@ for (let i = 0; i < element.length; i++) {
     })
 }
 
-
+/*
 function notification() {
     fetch("http://127.0.0.1:8000/notification/", {
         method: "GET",
@@ -45,3 +46,19 @@ function notification() {
 }
 
 notification()
+*/
+
+function get_user_details() {
+    tag = document.getElementById("user_id")
+    user_id = parseInt(tag.value)
+    let user_details = fetch("http://127.0.0.1:8000/user_details", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCsrfToken()
+        },
+        body: JSON.stringify({"id": user_id})
+    })
+}
+
+get_user_details()
