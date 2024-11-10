@@ -29,3 +29,11 @@ class Posts(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     published = models.BooleanField(default=False)
     seen = models.BooleanField(default=False)
+
+
+class Notifications(models.Model):
+    post = models.ForeignKey(Posts, on_delete=models.CASCADE)
+    sender = models.ForeignKey(UserDetails, on_delete=models.CASCADE)
+    receiver_id = models.IntegerField()
+    is_seen = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)

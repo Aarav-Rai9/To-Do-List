@@ -185,9 +185,10 @@
                         <li class="nav-item dropdown no-arrow mx-1">
                             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-bell fa-fw"></i>
+                                <button type=button class=btn><i class="fas fa-bell fa-fw"></i></button>
                                 <!-- Counter - Alerts -->
                                 <span class="badge badge-danger badge-counter" id="notification" class="notification"></span>
+                                <input type="hidden" id="csrf" value="{{ csrf_token }}">
                             </a>
                             <!-- Dropdown - Alerts -->
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"

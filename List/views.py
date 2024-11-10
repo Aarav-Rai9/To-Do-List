@@ -135,7 +135,6 @@ def logout(request):
 
 
 def posts(request):
-    global notification
     if request.method == "POST":
         form = PostForm(request.POST, request.FILES)
         user_id = request.session.get("user_id", None)
@@ -144,6 +143,7 @@ def posts(request):
             content = form.save()
             content.author = user_detail
             content.save()
+            add_notification(request, content)
             return redirect("list_posts")
     return render(request, "Posts.html")
 
@@ -185,7 +185,6 @@ def edit_list_item(request, id):
         obj.save()
     except exception as e:
         print(e)
-    print(obj)
     data = {"id": obj.id, "description": obj.description, "created_at": obj.created_at, "status": obj.status}
     return JsonResponse(data)
 
@@ -198,18 +197,35 @@ def test_email(request):
     return HttpResponse("email sent.")
 
 
-def notification_count(request):
+def notification_count(request, id):
     # user_id = request.session.get("user_id", None)
     # print("user id ", user_id)
-    unseen = Posts.objects.filter(published__icontains=1, seen__icontains=0).count()
-    print("unseen ", unseen)
+    unseen = Notifications.objects.filter(receiver_id=id).count()
+
     obj = {"count": unseen}
     return JsonResponse(obj)
 
 
 def get_user_details(request):
-    print(request)
     response = json.loads(request.body)
     id = response["id"]
+
     user_details = get_object_or_404(UserDetails, id=id)
-    return user_details
+    first_name = user_details.first_name
+    last_name = user_details.last_name
+    email_address = user_details.email_address
+
+    data = {"id": id, "first_name": first_name, "last_name": last_name, "email_address": email_address}
+    return JsonResponse(data)
+
+
+def add_notification(request, post):
+    post_id = post.id
+    sender = request.session.get("user_id", None)
+    receiver_id = UserDetails.objects.exclude(id=sender)
+    for receiver in receiver_id:
+        id = receiver.id
+        obj = {'post': post_id, 'sender': sender, 'receiver_id': id, 'is_seen': False}
+        form = NotificationsForm(data=obj)
+        if form.is_valid():
+            form.save()

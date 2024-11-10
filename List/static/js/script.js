@@ -6,8 +6,6 @@ function getCsrfToken() {
     return token
 }
 
-console.log(getCsrfToken())
-
 element = document.getElementsByClassName("list_title")
 for (let i = 0; i < element.length; i++) {
     element[i].addEventListener("change", function (self) {
@@ -28,37 +26,64 @@ for (let i = 0; i < element.length; i++) {
     })
 }
 
-/*
-function notification() {
-    fetch("http://127.0.0.1:8000/notification/", {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-            "X-CSRFToken": getCsrfToken()
-        },
-        credentials: "same-origin"
-    }).then(response => response.json()).then(data => {
-        let count = data["count"]
-        let element = document.getElementById("notification")
-        element.innerHTML = count
-    }).catch(error => console.log("Error:", error))
 
+async function notification() {
+    try {
+        let id = sessionStorage.getItem("user_id")
+        let notification = await fetch("http://localhost:8000/notification/" + id, {
+            method: "PUT",
+            headers: {
+                "Context-Type": "application/json",
+                "X-CSRFToken": getCsrfToken()
+            }
+        })
+
+        if (notification.ok) {
+            let response = await notification.json()
+            element = document.getElementById("notification")
+            console.log(element)
+            element.innerHTML = response.count
+        }
+    } catch (e) {
+        console.error("ERROR", e)
+    }
 }
 
-notification()
-*/
 
-function get_user_details() {
+async function get_user_details() {
     tag = document.getElementById("user_id")
     user_id = parseInt(tag.value)
-    let user_details = fetch("http://127.0.0.1:8000/user_details", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "X-CSRFToken": getCsrfToken()
-        },
-        body: JSON.stringify({"id": user_id})
-    })
+    try {
+        let user_details = await fetch("http://localhost:8000/user_details/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": getCsrfToken()
+            },
+            body: JSON.stringify({"id": user_id})
+        })
+
+        if (user_details.ok) {
+            let response = await user_details.json()
+            console.log(response)
+            sessionStorage.setItem("user_id", response.id)
+            sessionStorage.setItem("full_name", response.first_name + " " + response.last_name)
+            sessionStorage.setItem("email_address", response.email_address)
+        }
+    } catch (e) {
+        console.error("ERROR:", e)
+    }
+
+
 }
 
+function log() {
+    console.log("hello world")
+}
+
+
 get_user_details()
+
+setInterval(notification, 2000)
+
+

@@ -24,3 +24,9 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Posts
         fields = ['title', 'content', 'image', 'published']
+
+
+class NotificationsForm(forms.ModelForm):
+    class Meta:
+        model = Notifications
+        fields = ['post', 'sender', 'receiver_id', 'is_seen']
