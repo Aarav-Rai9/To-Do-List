@@ -1,0 +1,33 @@
+{% extends 'header.html' %}
+{% block title %}To-Do List - Notifications{% endblock %}
+{% block content %}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-4 text-gray-800">Notifications</h1>
+
+</div>
+<!-- /.container-fluid -->
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th scope=col>Post ID</th>
+            <th scope=col>Date</th>
+            <th scope=col>Sender</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for notification in notifications %}
+        <tr>
+            <td>{{ notification.id}}</td>
+            <td>{{ notification.post_id }}</td>
+            <td>{{ notification.created_at }}</td>
+            <td>{{ notification.sender.first_name }} {{ notification.sender.last_name }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<!-- End of Main Content -->
+{% endblock %}

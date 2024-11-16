@@ -199,17 +199,13 @@ def test_email(request):
 
 def notification_count(request, id):
     # user_id = request.session.get("user_id", None)
-    # print("user id ", user_id)
     unseen = Notifications.objects.filter(receiver_id=id).count()
 
     obj = {"count": unseen}
     return JsonResponse(obj)
 
 
-def get_user_details(request):
-    response = json.loads(request.body)
-    id = response["id"]
-
+def get_user_details(request, id):
     user_details = get_object_or_404(UserDetails, id=id)
     first_name = user_details.first_name
     last_name = user_details.last_name
@@ -229,3 +225,9 @@ def add_notification(request, post):
         form = NotificationsForm(data=obj)
         if form.is_valid():
             form.save()
+
+
+def list_notifications(request):
+    id = request.session.get("user_id", None)
+    notifications = Notifications.objects.filter(receiver_id=id)
+    return render(request, "notifications.html", {"notifications": notifications})
