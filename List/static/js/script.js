@@ -26,7 +26,6 @@ for (let i = 0; i < element.length; i++) {
     })
 }
 
-
 async function notification() {
     try {
         let id = sessionStorage.getItem("user_id")
@@ -40,8 +39,7 @@ async function notification() {
         })
 
         if (notification.ok) {
-            let response = await notification.json()
-            console.log(response)
+            //let response = await notification.json()
             //element = document.getElementById("notification")
             //element.innerHTML = response.count
         }
